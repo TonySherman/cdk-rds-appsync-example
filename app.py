@@ -2,9 +2,8 @@
 import os
 
 import aws_cdk as cdk
-from appsync.appsync_stack import AppSyncApiStack
-from rds_cluster.rds_cluster_stack import RdsClusterStack
-from single_stack.rds_appsync_single_stack import RdsClusterAppSync
+from appsync_source.appsync_stack import AppSyncApiStack
+from appsync_merged.appsync_merged_stack import MergedAppSyncApiStack
 
 
 app = cdk.App()
@@ -15,12 +14,8 @@ env = cdk.Environment(
 )
 
 
-# Two stacks, One creating an RDS cluster, the other
-# looks up the cluster to use as an appsync data source.
-# RdsClusterStack(app, "RdsClusterStack", env=env)
-# AppSyncApiStack(app, "AppSyncApiStack", env=env) # Cannot synth
+AppSyncApiStack(app, "AppSyncApiStack", env=env)
 
-# Creating the cluster and api in a single stack works
-RdsClusterAppSync(app, "RdsAppSyncStack", env=env)
+MergedAppSyncApiStack(app, "MergedAppSyncApiStack", env=env)
 
 app.synth()
